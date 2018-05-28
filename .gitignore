@@ -12,3 +12,4 @@
 *.out.
 .idea/
 .vscode/
+git-commit-info-format.md
