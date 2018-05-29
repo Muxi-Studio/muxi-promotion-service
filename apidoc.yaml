@@ -42,30 +42,31 @@ securityDefinitions:
 ########################PATH START####################################
 paths:
   /private-promotion-link/:
-    post:
+    get:
       summary: 获取用户专属推广链接
-      description: 采用basic auth方式登录获取token,该token用于构造推广url,需要在请求体中传入需要获取的用户的id,有效期间隔expires(单位为秒)以及需要推广的url三个参数，其中expires参数可选，可以不传，此时该token则永久有效。请求成功后后端返回推广链接，如"https://xueerpromotion.andrewpqc.xyz/promotion/?t=tokenstring&target=https://xueer.muxixyz.com/auth/register/"
+      description: 采用basic auth方式登录获取token,该token用于构造推广url,需要在查询参数中传入需要获取的用户的id,有效期间隔expires(单位为秒)以及需要推广的url三个参数，其中expires参数可选，可以不传，此时该token则永久有效。请求成功后后端返回推广链接，如"https://xueerpromotion.andrewpqc.xyz/promotion/?t=tokenstring&target=https://xueer.muxixyz.com/auth/register/"
       consumes:
       - application/json
       produces:
       - application/json
       parameters:
-        - in: body
-          description: 请求体
+        - in: query
           required: true
-          schema:
-            type: object
-            properties:
-              id:
-                type: integer
-                description: 用户id
-              expires:
-                type: integer
-                description: 有效时间,单位秒
-              url:
-                type: string
-                description: 被推广页面的url
+          name: id
+          type: integer
+          description: 用户id
+        - in: query
+          description: 有效期(可选参数)
+          name: expires
+          type: integer
+        - in: query
+          description: 被推广页面url
+          type: string
+          required: true
+          name: url
       responses:
+        400:
+          description: 请求错误
         401:
           description: unathorized
         200:
