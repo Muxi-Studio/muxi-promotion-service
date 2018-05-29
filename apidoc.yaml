@@ -57,7 +57,7 @@ paths:
           description: 用户id
         - in: query
           description: 有效期(可选参数)
-          name: expires
+          name: ex
           type: integer
         - in: query
           description: 被推广页面url
