@@ -44,7 +44,7 @@ paths:
   /private-promotion-link/:
     get:
       summary: 获取用户专属推广链接
-      description: 采用basic auth方式登录获取token,该token用于构造推广url,需要在查询参数中传入需要获取的用户的id,有效期间隔expires(单位为秒)以及需要推广的url三个参数，其中expires参数可选，可以不传，此时该token则永久有效。请求成功后后端返回推广链接，如"https://xueerpromotion.andrewpqc.xyz/promotion/?t=tokenstring&target=https://xueer.muxixyz.com/auth/register/"
+      description: 采用basic auth方式登录获取token,该token用于构造推广url,需要在查询参数中传入需要获取的用户的id,有效期间隔ex(单位为秒)以及需要推广的url三个参数，其中ex参数可选，可以不传，此时该token则永久有效。请求成功后后端返回推广链接，如"https://xueerpromotion.andrewpqc.xyz/promotion/?t=tokenstring&target=https://xueer.muxixyz.com/auth/register/"
       consumes:
       - application/json
       produces:
