@@ -43,7 +43,7 @@ func GetBasicAuthInfo() (map[string]string) {
 }
 
 //注意这里的secretkey一定要是32字节才行
-func getSecretKey() string {
+func GetSecretKey() string {
 	//注意在生产环境需要设置SECRETKEY的值
 	if secretKey := os.Getenv("SECRETKEY"); secretKey != "" {
 		return secretKey
