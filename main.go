@@ -1,19 +1,20 @@
 package main
 
 import (
-	"time"
+	//"time"
 	"xueer-promotion-service/utils"
+	"xueer-promotion-service/controls"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/basicauth"
 )
 
 func newApp() *iris.Application {
-	app := iris.New()
+	app := iris.Default()
 
 	authConfig := basicauth.Config{
 		Users:   utils.GetBasicAuthInfo(),
 		Realm:   "Authorization Required", // defaults to "Authorization Required"
-		Expires: time.Duration(30) * time.Minute,
+		//Expires: time.Duration(30) * time.Minute,
 	}
 
 	authentication := basicauth.New(authConfig)
@@ -25,18 +26,15 @@ func newApp() *iris.Application {
 	*/
 
 	app.Get("/", func(ctx iris.Context) { ctx.Redirect("/admin") })
-
+	app.Get("/")
 	// to party
 
-	needAuth := app.Party("/admin", authentication)
+	needAuth := app.Party("/api/v1.0", authentication)
 	{
 		//http://localhost:8080/admin
-		needAuth.Get("/", h)
+		needAuth.Get("/private-promotion-link/", controls.GetPrivatePromotionLink)
 		// http://localhost:8080/admin/profile
-		needAuth.Get("/profile", h)
 
-		// http://localhost:8080/admin/settings
-		needAuth.Get("/settings", h)
 	}
 
 	return app
@@ -45,7 +43,7 @@ func newApp() *iris.Application {
 func main() {
 	app := newApp()
 	// open http://localhost:8080/admin
-	app.Run(iris.Addr(":8080"))
+	app.Run(iris.Addr(":8080"),iris.WithoutVersionChecker)
 }
 
 func h(ctx iris.Context) {
