@@ -3,7 +3,6 @@ package utils
 import (
 	"testing"
 	"os"
-
 )
 
 func TestGetRedisPassword(t *testing.T) {
@@ -49,3 +48,14 @@ func TestGetBasicAuthInfo(t *testing.T) {
 	os.Unsetenv("BASIC_AUTH_INFO")
 }
 
+func TestGetSecretKey(t *testing.T) {
+	if got := GetSecretKey(); got != "fDEtrkpbQbocVxYRLZrnkrXDWJzRZMfO" {
+		t.Errorf("got GetSecretKey() = %v,but need 'fDEtrkpbQbocVxYRLZrnkrXDWJzRZMfO'", got)
+	}
+
+	os.Setenv("SECRETKEY", "hhh,my secret key")
+	if got := GetSecretKey(); got != "hhh,my secret key" {
+		t.Errorf("got GetSecretKey() = %v,but need 'hhh,my secret key'", got)
+	}
+	os.Unsetenv("SECRETKEY")
+}

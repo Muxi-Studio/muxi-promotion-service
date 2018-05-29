@@ -6,7 +6,7 @@ import (
 
 func TestJWTTool(t *testing.T) {
 	// 签名字符串
-	sign := getSecretKey()
+	sign := GetSecretKey()
 
 	token := NewJWToken(sign)
 
