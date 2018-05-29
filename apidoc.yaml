@@ -170,6 +170,38 @@ paths:
       - basic: []
      
      
+  /pagenation/:
+    get:
+      summary: 分页获取全部数据
+      description:
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        required: true
+        name: start
+        type: integer
+        description: 排名起始编号
+      - in: query
+        required: true
+        name: end
+        type: integer
+        description: 排名终止编号
+      responses:
+        200:
+          description: ok
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: string
+                score:
+                  type: integer
+        401:
+          description: unathorized
+      security:
+      - basic: []
 
 
         
