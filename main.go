@@ -18,23 +18,17 @@ func newApp() *iris.Application {
 	}
 
 	authentication := basicauth.New(authConfig)
-
-	// to global app.Use(authentication) (or app.UseGlobal before the .Run)
-	// to routes
-	/*
-		app.Get("/mysecret", authentication, h)
-	*/
-
 	app.Get("/", func(ctx iris.Context) { ctx.Redirect("/admin") })
-	app.Get("/")
-	// to party
+	app.Get("/promotion/",controls.ProcessPromotionRequest)
 
+	// to party
 	needAuth := app.Party("/api/v1.0", authentication)
 	{
-		//http://localhost:8080/admin
 		needAuth.Get("/private-promotion-link/", controls.GetPrivatePromotionLink)
-		// http://localhost:8080/admin/profile
-
+		needAuth.Get("/clean/",controls.CleanDB)
+		needAuth.Get("/statistic/",controls.GetStatistic)
+		needAuth.Get("/top/{n:int}/",controls.GetTopX)
+		needAuth.Get("/rank/{id:string}/",controls.GetRank)
 	}
 
 	return app
@@ -42,14 +36,6 @@ func newApp() *iris.Application {
 
 func main() {
 	app := newApp()
-	// open http://localhost:8080/admin
 	app.Run(iris.Addr(":8080"),iris.WithoutVersionChecker)
 }
 
-func h(ctx iris.Context) {
-	username, password, _ := ctx.Request().BasicAuth()
-	// third parameter it will be always true because the middleware
-	// makes sure for that, otherwise this handler will not be executed.
-
-	ctx.Writef("%s %s:%s", ctx.Path(), username, password)
-}
