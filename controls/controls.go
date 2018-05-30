@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"time"
 	"xueer-promotion-service/redis-client"
-	"fmt"
 	"encoding/base64"
+	"fmt"
 )
 
 //fmt.Println(strings.HasPrefix("my string", "prefix"))  // false
@@ -97,8 +97,6 @@ func GetTopX(ctx iris.Context) {
 //获取某一id用户的排名
 func GetRank(ctx iris.Context) {
 	id := ctx.Params().Get("id")
-	fmt.Println(id)
-	fmt.Println(id == "1")
 	a, _ := redis_client.GetRankbyID(id)
 	ctx.JSON(iris.Map{"rank": a, "id": id})
 }
@@ -117,6 +115,16 @@ func GetStatistic(ctx iris.Context) {
 	ctx.StatusCode(iris.StatusOK)
 }
 
+//范围获取
 func GetPageNationInfo(ctx iris.Context) {
-
+	start:=ctx.URLParam("start")
+	print(start)
+	start_int,_:=strconv.Atoi(start)
+	end:=ctx.URLParam("end")
+	end_int,_:=strconv.Atoi(end)
+	fmt.Println(int64(start_int),int64(end_int))
+	data,_:=redis_client.GetRangeWithScore(int64(start_int),int64(end_int))
+	fmt.Println(data)
+	ctx.JSON(iris.Map{"data":data})
+	ctx.StatusCode(iris.StatusOK)
 }
