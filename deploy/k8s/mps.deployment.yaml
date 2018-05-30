@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: promotion
+  name: promotion-deploy
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: promotion
+    spec:
+      containers:
+      - name: promotion-backend-ct
+        image: pqcsdockerhub/promotion-service-image
+        args:
+          - /promotion-service
+        env:
+        #在这里配置容器的环境变量
+        #  - name: XUEER_ORM_URI
+        #    value: ""
+
+        ports:
+        - containerPort: 8080
+        resources: {}
+      restartPolicy: Always
+status: {}

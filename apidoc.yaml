@@ -1,0 +1,209 @@
+swagger: '2.0'
+
+#################################INFO START##########################
+info:
+  description: |
+    学而推广服务API
+
+  version: 1.0.0
+  title: Xueer Promotion
+
+  contact:
+    email: 3480437308@qq.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+###############################INFO END#################################
+
+host: xueerpromotion.andrewpqc.xyz
+basePath: /api/v1.0
+schemes:
+ - https
+ - http
+######################TAG START#######################################
+tags:
+- name: 唯一的URL
+  description: token
+
+
+##########################TAG END######################################
+
+###########################AUTH START#################################
+securityDefinitions:
+
+  basic:
+    type: basic
+    description: 本服务所有api均需要Basic Auth验证的保护，如果需要账户请联系Andrewpqc
+
+
+########################AUTH END######################################
+
+
+########################PATH START####################################
+paths:
+  /private-promotion-link/:
+    get:
+      summary: 获取用户专属推广链接
+      description: 采用basic auth方式登录获取token,该token用于构造推广url,需要在查询参数中传入需要获取的用户的id,有效期间隔ex(单位为秒)以及需要推广的url三个参数，其中ex参数可选，可以不传，此时该token则永久有效。请求成功后后端返回推广链接，如"https://xueerpromotion.andrewpqc.xyz/promotion/?t=tokenstring&target=https://xueer.muxixyz.com/auth/register/"
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+        - in: query
+          required: true
+          name: id
+          type: integer
+          description: 用户id
+        - in: query
+          description: 有效期(可选参数)
+          name: ex
+          type: integer
+        - in: query
+          description: 被推广页面url
+          type: string
+          required: true
+          name: url
+      responses:
+        400:
+          description: 请求错误
+        401:
+          description: unathorized
+        200:
+          description: OK
+          schema:
+            properties:
+              promotion_url:
+                type: string
+                description: 推广链接
+      security:
+      - basic: []
+
+  /promotion/:
+    get:
+      summary: 处理推广请求
+      description: 接收用户请求，统计点击，并且将请求重定向到被推广页面
+      parameters:
+        - in: query
+          name: t
+          description: token字符串
+          required: true
+        - in: query
+          name: target
+          description: 被推广页面的url
+          required: true
+      responses:
+        301:
+          description: 重定向到被推广页面
+        403:
+          description: token过期或不完整
+  
+  /top/{n}/:
+    get:
+      summary: 获取推广力度前n位的用户id及其推广力度得分
+      description: 推广力度得分由通过该用户专属推广连接进入到推广页面的请求数量决定(虽然这里可能存在刷分的漏洞!)
+      parameters:
+        - in: path
+          name: n
+          description: 获取前n位的信息
+          required: true
+      responses:
+        200:
+          description: ok
+        401:
+          description: unathorized
+      security:
+      - basic: []
+  
+  /rank/{id}/:
+    get:
+      summary: 获取某一用户当前排名
+      description: 推广力度得分由通过该用户专属推广连接进入到推广页面的请求数量决定(虽然这里可能存在刷分的漏洞!)
+      parameters:
+        - in: path
+          name: id
+          description: 用户标识
+          required: true
+      responses:
+        200:
+          description: ok
+          schema:
+            properties:
+              rank:
+                type: integer
+                description: 排名
+              score:
+                type: integer
+                description: 推广分数
+        401:
+          description: unathorized
+      security:
+      - basic: []
+
+  /statistic/:
+    get:
+      summary: 获取活动参与人数
+      description: 
+      responses:
+        200:
+          description: ok
+          schema:
+            properties:
+              total:
+                type: integer
+                description: 参与人数
+        401:
+          description: unathorized
+      security:
+      - basic: []
+    
+  /clean/:
+    delete:
+      summary: 清空数据库
+      description: 
+      responses:
+        200:
+          description: ok
+        401:
+          description: unathorized
+      security:
+      - basic: []
+     
+     
+  /pagenation/:
+    get:
+      summary: 分页获取全部数据
+      description:
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        required: true
+        name: start
+        type: integer
+        description: 排名起始编号
+      - in: query
+        required: true
+        name: end
+        type: integer
+        description: 排名终止编号
+      responses:
+        200:
+          description: ok
+          schema:
+            type: array
+            items:
+              properties:
+                id:
+                  type: string
+                score:
+                  type: integer
+        401:
+          description: unathorized
+      security:
+      - basic: []
+
+
+        
+            
+
