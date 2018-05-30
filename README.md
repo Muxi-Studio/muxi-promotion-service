@@ -1,4 +1,4 @@
-# Muxi promotion service
+# Muxi promotion service(MPS)
 [木犀](http://muxixyz.com)产品推广服务,**通用的可复用的“新带老”模式的互联网产品推广解决方案**。利用现有产品的用户群来推广你想要推广的任何页面。
 
 ### 一、推广模式简介
