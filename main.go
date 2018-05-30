@@ -1,9 +1,8 @@
 package main
 
 import (
-	//"time"
-	"xueer-promotion-service/utils"
-	"xueer-promotion-service/controls"
+	"muxi-promotion-service/utils"
+	"muxi-promotion-service/controls"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/basicauth"
 )
@@ -18,7 +17,9 @@ func newApp() *iris.Application {
 	}
 
 	authentication := basicauth.New(authConfig)
+
 	app.Get("/", func(ctx iris.Context) {
+		ctx.StatusCode(iris.StatusOK)
 		ctx.WriteString("<h1>Hello, Welcome to use Muxi Promotion Service")
 	})
 	app.Get("/promotion/",controls.ProcessPromotionRequest)
@@ -27,7 +28,7 @@ func newApp() *iris.Application {
 	needAuth := app.Party("/api/v1.0", authentication)
 	{
 		needAuth.Get("/private-promotion-link/", controls.GetPrivatePromotionLink)
-		needAuth.Delete("/clean/",controls.CleanDB)
+		needAuth.Get("/clean/",controls.CleanDB)
 		needAuth.Get("/statistic/",controls.GetStatistic)
 		needAuth.Get("/top/{n:int}/",controls.GetTopX)
 		needAuth.Get("/rank/{id:string}/",controls.GetRank)

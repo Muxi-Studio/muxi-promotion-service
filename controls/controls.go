@@ -2,13 +2,12 @@ package controls
 
 import (
 	"github.com/kataras/iris"
-	"xueer-promotion-service/utils"
+	"muxi-promotion-service/utils"
 	"strings"
 	"strconv"
 	"time"
-	"xueer-promotion-service/redis-client"
+	"muxi-promotion-service/redis-client"
 	"encoding/base64"
-	"fmt"
 )
 
 //fmt.Println(strings.HasPrefix("my string", "prefix"))  // false
@@ -31,14 +30,12 @@ func GetPrivatePromotionLink(ctx iris.Context) {
 	token := utils.NewJWToken(sign)
 	var tokenString string
 	if expries != "" {
-		print("here is have expries")
 		tokenString, _ = token.GenJWToken(map[string]interface{}{
 			"id":           string(id),
 			"current_time": time.Now().Second(),
 			"ex":           string(expries),
 		})
 	} else {
-		print("here is don't have expries")
 		tokenString, _ = token.GenJWToken(map[string]interface{}{
 			"id": string(id),
 		})
@@ -84,6 +81,7 @@ func ProcessPromotionRequest(ctx iris.Context) {
 	redis_client.MyZadd(ID_str)
 	landing_byte,_:=base64.StdEncoding.DecodeString(landing)
 	landing=string(landing_byte)
+	ctx.StatusCode(iris.StatusPermanentRedirect)
 	ctx.Redirect(landing)
 }
 
@@ -103,8 +101,8 @@ func GetRank(ctx iris.Context) {
 
 //清空数据库
 func CleanDB(ctx iris.Context) {
-	data, err := redis_client.RedisClient.Del("xueer-promotion").Result()
-	ctx.JSON(iris.Map{"data": data, "err": err})
+	data, _:= redis_client.RedisClient.Del("xueer-promotion").Result()
+	ctx.JSON(iris.Map{"data": data})
 	ctx.StatusCode(iris.StatusOK)
 }
 
@@ -118,13 +116,10 @@ func GetStatistic(ctx iris.Context) {
 //范围获取
 func GetPageNationInfo(ctx iris.Context) {
 	start:=ctx.URLParam("start")
-	print(start)
 	start_int,_:=strconv.Atoi(start)
 	end:=ctx.URLParam("end")
 	end_int,_:=strconv.Atoi(end)
-	fmt.Println(int64(start_int),int64(end_int))
 	data,_:=redis_client.GetRangeWithScore(int64(start_int),int64(end_int))
-	fmt.Println(data)
 	ctx.JSON(iris.Map{"data":data})
 	ctx.StatusCode(iris.StatusOK)
 }
