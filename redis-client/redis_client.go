@@ -3,7 +3,7 @@ package redis_client
 import (
 	"github.com/go-redis/redis"
 	"log"
-	"xueer-promotion-service/utils"
+	"muxi-promotion-service/utils"
 )
 
 var RedisClient *redis.Client
