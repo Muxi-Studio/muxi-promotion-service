@@ -2,12 +2,12 @@
 [木犀](http://www.muxixyz.com)产品推广服务,**通用的“新带老”模式的互联网产品推广解决方案**。利用现有产品的用户群来推广你想要推广的任何页面。轻量级、微服务、可重用、与现有产品之间完全解耦。
 
 ### 一、Powered BY
-- go/iris framework
-- redis(数据持久化)
-- go-redis(go语言的redis驱动)
-- nginx(反向代理)
-- let's encrypt(https证书颁发)
-- 阿里云提供计算服务
+- go/[iris](https://github.com/kataras/iris) framework
+- [redis](https://redis.io/)(数据持久化)
+- [go-redis](https://github.com/go-redis/redis)(go语言的redis驱动)
+- [nginx](http://nginx.org/)(反向代理)
+- [let's encrypt](https://letsencrypt.org/)(https证书颁发)
+- [阿里云](https://cn.aliyun.com/?utm_content=se_980105&gclid=Cj0KCQjw9LPYBRDSARIsAHL7J5l2CnX6oYbFSvzhFnnsZOrEoaPWnfB8Nc1m_hH7y35-NUypq847NxAaArl8EALw_wcB)提供计算服务
 
 ### 二、推广模式简介
 本推广模式适用于任何具有用户系统的互联网产品。利用它,我们可以策划一个推广活动,来推广指定的页面。
@@ -26,9 +26,11 @@
 - SECRETKEY:生成和解析token的前面秘钥字符串，默认`fDEtrkpbQbocVxYRLZrnkrXDWJzRZMfO`,该字符串必须是32字节
 
 #### 部署
-[docker部署]()
-[kubernetes部署]()
-[二进制包部署]()
+[kubernetes部署](https://github.com/Andrewpqc/xueer-promotion-service/blob/develop/deploy/k8s/README.md)
+
+[docker部署](https://github.com/Andrewpqc/xueer-promotion-service/blob/develop/deploy/docker/README.md)
+
+[二进制包部署](https://github.com/Andrewpqc/xueer-promotion-service/blob/develop/deploy/binary/README.md)
 ### 四、前端开发者指南
 ```
 http://127.0.0.1:8080/api/v1.0/private-promotion-link?id=1&url=www.baidu.com&ex=1000
