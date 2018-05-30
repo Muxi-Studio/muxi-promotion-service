@@ -2,7 +2,12 @@ package redis_client
 
 import (
 	"testing"
+	"fmt"
 )
+
+func init() {
+	RedisClient.Del("xueer-promotion")
+}
 
 func TestMyZadd(t *testing.T) {
 	if err := MyZadd("A"); err != nil {
@@ -73,4 +78,27 @@ func TestGetRankbyID(t *testing.T) {
 		t.Errorf("got GetRankbyID('D') = %v,but want 4", rank)
 	}
 	RedisClient.Del("xueer-promotion")
+}
+
+func TestGetRangeWithScore(t *testing.T) {
+	MyZadd("A")
+	MyZadd("B")
+	MyZadd("B")
+	MyZadd("B")
+	MyZadd("C")
+	MyZadd("C")
+	MyZadd("D")
+	MyZadd("A")
+	MyZadd("A")
+	MyZadd("A")
+	vals, _ := GetRangeWithScore(1, 3) //获取排第一名到第三名的用户
+	fmt.Println(vals)
+	if vals[0].Score != 4 || vals[1].Score != 3 || vals[2].Score != 2 {
+		t.Error("error")
+	}
+	if vals[0].Member != "A" || vals[1].Member != "B" || vals[2].Member != "C" {
+		t.Error("error")
+	}
+	//RedisClient.Del("xueer-promotion")
+
 }

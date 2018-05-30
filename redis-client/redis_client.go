@@ -66,3 +66,15 @@ func GetRankbyID(id string) (int64, error) {
 	zrank := RedisClient.ZRevRank("xueer-promotion", id)
 	return zrank.Val()+1, zrank.Err()
 }
+
+
+/**
+获取某一排名范围内的用户信息
+ */
+ func GetRangeWithScore(start int64,end int64)([]redis.Z,error){
+ 	if end==-1{
+ 		total,_:=RedisClient.ZCard("xueer-promotion").Result()
+ 		end=total
+	}
+ 	return RedisClient.ZRevRangeWithScores("xueer-promotion",start-1,end-1).Result()
+ }
