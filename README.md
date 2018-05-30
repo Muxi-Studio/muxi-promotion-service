@@ -19,7 +19,7 @@
 理论上来讲，只要宣传做到位、奖品足够吸引人，这个推广活动是会有很好的效果的。
 
 ### 三、配置与部署
-#### 环境配置
+#### 环境变量配置
 - REDIS_PASSWORD:redis密码，若不设置此变量表明无密码
 - REDIS_ADDR:redis地址，默认为`localhost:6379`
 - BASIC_AUTH_INFO:Basic Auth账户,默认为`andrewpqc:andrewpqc`
@@ -31,13 +31,36 @@
 [docker部署](https://github.com/Andrewpqc/xueer-promotion-service/blob/develop/deploy/docker/README.md)
 
 [二进制包部署](https://github.com/Andrewpqc/xueer-promotion-service/blob/develop/deploy/binary/README.md)
-### 四、前端开发者指南
-```
-http://127.0.0.1:8080/api/v1.0/private-promotion-link?id=1&url=www.baidu.com&ex=1000
-http://127.0.0.1:8080/promotion/?t=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEifQ.O4FApAv52Ue-HwMS5mHBaeOnhp_nMcTlANfCfCkOivM&landing=aHR0cHM6Ly93d3cuYmFpZHUuY29t"
-```
 
-### 四、API文档地址
+### 四、前端开发者指南
+首先发送GET请求到下面的URL
+```
+https://promotion.andrewpqc.xyz/private-promotion-link/
+```
+该请求有下面的查询参数:`id`,`url`,`ex`。这三个参数分别的含义是用户标识，需要推广的页面url和链接有效期。其中前两个参数为必须参数，后面的`ex`为可选参数，ex的单位为秒。如不传`ex`表明不给生成的链接设置有效期，返回的链接永久有效。
+下面是两个示例:
+```
+https://promotion.andrewpqc.xyz/api/v1.0/private-promotion-link/?id=1&url=www.baidu.com&ex=1000
+```
+上面的链接就是获取用户标识为1,被推广URL为百度首页，过期时间为1000秒的推广链接。
+```
+https://promotion.andrewpqc.xyz/api/v1.0/private-promotion-link/?id=1&url=www.baidu.com
+```
+这个链接就是获取用户标识为1,被推广URL为百度首页，永久有效的推广链接。
+
+下面是请求返回的示例推广链接
+```
+http://promotion.andrewpqc.xyz/promotion/?t=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEifQ.O4FApAv52Ue-HwMS5mHBaeOnhp_nMcTlANfCfCkOivM&landing=aHR0cHM6Ly93d3cuYmFpZHUuY29t"
+```
+随后用户可以分发此链接，此链接会将请求发送至本推广服务，我们就会将数据库对应数据更新，并且将请求重定向至被推广页面。如果该链接设置了过期，那么这个handler还会检查该链接是否过期，如果过期则数据库不会更改，请求也不会被重定向，程序返回相应状态码提示链接过期。
+
+**给推广链接设置过期时间有啥好处?**
+设置过期时间，用户必须在一段时间后重新获取专属推广链接并且重新分发。这对于增加推广效果有益。(前提是奖品非常诱人，用户非常有刷榜的欲望，不然的话，链接过期他就真的就不玩儿了:)
+
+更多其他的API请参考下面的API文档。
+
+### 四、API文档
 https://app.swaggerhub.com/apis/andrewpqc/xueer-promotion/1.0.0
 
 ### 五、TODO
+
