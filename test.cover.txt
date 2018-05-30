@@ -1,0 +1,7 @@
+mode: set
+muxi-promotion-service/main.go:10.33,21.38 4 1
+muxi-promotion-service/main.go:25.2,29.2 3 1
+muxi-promotion-service/main.go:38.2,38.12 1 1
+muxi-promotion-service/main.go:21.38,24.3 2 1
+muxi-promotion-service/main.go:29.2,36.3 6 1
+muxi-promotion-service/main.go:41.13,44.2 2 0
