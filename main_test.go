@@ -2,7 +2,7 @@ package main
 
 import (
 	"testing"
-	"muxi-promotion-service/redis-client"
+	"github.com/Andrewpqc/muxi-promotion-service/redis-client"
 	"github.com/kataras/iris/httptest"
 	"encoding/json"
 	"time"

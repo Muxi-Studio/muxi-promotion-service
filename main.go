@@ -1,8 +1,8 @@
 package main
 
 import (
-	"muxi-promotion-service/utils"
-	"muxi-promotion-service/controls"
+	"github.com/Andrewpqc/muxi-promotion-service/utils"
+	"github.com/Andrewpqc/muxi-promotion-service/controls"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/basicauth"
 )
