@@ -3,6 +3,7 @@
 - 将本目录的内容`clone`至服务器
 - 修改`mps.deployment.yaml`的内容，设置容器的环境变量
 - 运行下面的命令:
+
 创建命名`promotion`空间,
 ``` bash
 $ kubectl create ns promotion
