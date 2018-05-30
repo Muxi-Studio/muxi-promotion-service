@@ -2,11 +2,11 @@ package controls
 
 import (
 	"github.com/kataras/iris"
-	"muxi-promotion-service/utils"
+	"github.com/Andrewpqc/muxi-promotion-service/utils"
 	"strings"
 	"strconv"
 	"time"
-	"muxi-promotion-service/redis-client"
+	"github.com/Andrewpqc/muxi-promotion-service/redis-client"
 	"encoding/base64"
 )
 
