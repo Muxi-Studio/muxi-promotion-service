@@ -72,4 +72,5 @@ https://app.swaggerhub.com/apis/andrewpqc/xueer-promotion/1.0.0
 后面想把它做成一个多用户多应用的推广服务，前后台都有的那种，可以直接对外提供服务的。排行榜，名次查询这些页面都不需要在应用中写了，直接由本服务一并提供。
 
 <br>
+<br>
 <center>&copy; MuxiStudio Team</center>
