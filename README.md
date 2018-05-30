@@ -1,5 +1,5 @@
 # Muxi promotion service(MPS)
-[木犀](http://muxixyz.com)产品推广服务,**通用的可复用的“新带老”模式的互联网产品推广解决方案**。利用现有产品的用户群来推广你想要推广的任何页面。
+[木犀](http://www.muxixyz.com)产品推广服务,**通用的“新带老”模式的互联网产品推广解决方案**。利用现有产品的用户群来推广你想要推广的任何页面。轻量级、微服务、可重用、与现有产品之间完全解耦。
 
 ### 一、Powered BY
 - go/iris framework
@@ -18,5 +18,20 @@
 
 理论上来讲，只要宣传做到位、奖品足够吸引人，这个推广活动是会有很好的效果的。
 
-### 三、API文档地址
+### 三、配置与部署
+#### 环境配置
+
+#### 部署
+[docker部署]()
+[kubernetes部署]()
+[二进制包部署]()
+### 四、前端开发者指南
+```
+http://127.0.0.1:8080/api/v1.0/private-promotion-link?id=1&url=www.baidu.com&ex=1000
+http://127.0.0.1:8080/promotion/?t=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEifQ.O4FApAv52Ue-HwMS5mHBaeOnhp_nMcTlANfCfCkOivM&landing=aHR0cHM6Ly93d3cuYmFpZHUuY29t"
+```
+
+### 四、API文档地址
 https://app.swaggerhub.com/apis/andrewpqc/xueer-promotion/1.0.0
+
+### 五、TODO
