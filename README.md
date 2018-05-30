@@ -20,6 +20,10 @@
 
 ### 三、配置与部署
 #### 环境配置
+- REDIS_PASSWORD:redis密码，若不设置此变量表明无密码
+- REDIS_ADDR:redis地址，默认为`localhost:6379`
+- BASIC_AUTH_INFO:Basic Auth账户,默认为`andrewpqc:andrewpqc`
+- SECRETKEY:生成和解析token的前面秘钥字符串，默认`fDEtrkpbQbocVxYRLZrnkrXDWJzRZMfO`,该字符串必须是32字节
 
 #### 部署
 [docker部署]()
