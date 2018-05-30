@@ -8,6 +8,7 @@ import (
 	"time"
 	"xueer-promotion-service/redis-client"
 	"fmt"
+	"encoding/base64"
 )
 
 //fmt.Println(strings.HasPrefix("my string", "prefix"))  // false
@@ -42,6 +43,7 @@ func GetPrivatePromotionLink(ctx iris.Context) {
 			"id": string(id),
 		})
 	}
+	url=base64.StdEncoding.EncodeToString([]byte(url))
 	ctx.StatusCode(iris.StatusOK)
 	ctx.JSON(iris.Map{"token": "http://127.0.0.1:8080/promotion/?t=" + tokenString + "&landing=" + url})
 }
@@ -80,6 +82,8 @@ func ProcessPromotionRequest(ctx iris.Context) {
 	//向数据库添加该请求的记录
 	ID_str, _ := got["id"].(string)
 	redis_client.MyZadd(ID_str)
+	landing_byte,_:=base64.StdEncoding.DecodeString(landing)
+	landing=string(landing_byte)
 	ctx.Redirect(landing)
 }
 
