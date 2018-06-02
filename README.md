@@ -1,12 +1,13 @@
 # Muxi promotion service(MPS)
 [![Build Status](https://travis-ci.org/Andrewpqc/muxi-promotion-service.svg?branch=master)](https://travis-ci.org/Andrewpqc/muxi-promotion-service)
 
-[木犀](http://www.muxixyz.com)产品推广服务,**通用的“新带老”模式的互联网产品推广解决方案**。利用现有产品的用户群来推广你想要推广的任何页面。轻量级、微服务、可重用、与现有产品之间完全解耦。
+[木犀](http://www.muxixyz.com)产品推广服务,**通用的“老带新”模式的互联网产品推广解决方案**。利用现有产品的用户群来推广你想要推广的任何页面。轻量级、微服务、可重用、与现有产品之间完全解耦。
 
 ### 一、Powered BY
 - go/[iris](https://github.com/kataras/iris) framework
 - [redis](https://redis.io/)(数据持久化)
 - [go-redis](https://github.com/go-redis/redis)(go语言的redis驱动)
+- [kutt](https://kutt.it)短链接服务
 - [nginx](http://nginx.org/)(反向代理)
 - [let's encrypt](https://letsencrypt.org/)(https证书颁发)
 - [阿里云](https://cn.aliyun.com/?utm_content=se_980105&gclid=Cj0KCQjw9LPYBRDSARIsAHL7J5l2CnX6oYbFSvzhFnnsZOrEoaPWnfB8Nc1m_hH7y35-NUypq847NxAaArl8EALw_wcB)提供计算服务
@@ -26,6 +27,7 @@
 - REDIS_ADDR:redis地址，默认为`localhost:6379`
 - BASIC_AUTH_INFO:Basic Auth账户,默认为`andrewpqc:andrewpqc`
 - SECRETKEY:生成和解析token的前面秘钥字符串，默认`fDEtrkpbQbocVxYRLZrnkrXDWJzRZMfO`,该字符串必须是32字节
+- X_API_KEY: kutt短链接服务验证秘钥
 
 #### 部署
 [kubernetes部署](https://github.com/Andrewpqc/xueer-promotion-service/blob/develop/deploy/k8s/README.md)
@@ -52,7 +54,7 @@ https://promotion.andrewpqc.xyz/api/v1.0/private-promotion-link/?id=1&url=www.ba
 
 下面是请求返回的示例推广链接
 ```
-http://promotion.andrewpqc.xyz/promotion/?t=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEifQ.O4FApAv52Ue-HwMS5mHBaeOnhp_nMcTlANfCfCkOivM&landing=aHR0cHM6Ly93d3cuYmFpZHUuY29t"
+https://kutt.it/jI0S8z
 ```
 随后用户可以分发此链接，此链接会将请求发送至本推广服务，我们就会将数据库对应数据更新，并且将请求重定向至被推广页面。如果该链接设置了过期，那么这个handler还会检查该链接是否过期，如果过期则数据库不会更改，请求也不会被重定向，程序返回相应状态码提示链接过期。
 

@@ -3,6 +3,5 @@ language: go
 go:
   - master
 env:
-  - REDIS_ADDR="120.77.220.239:6380"
 
 script: go test -v -cover

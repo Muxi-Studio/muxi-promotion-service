@@ -4,9 +4,9 @@ import (
 	"testing"
 	"github.com/Andrewpqc/muxi-promotion-service/redis-client"
 	"github.com/kataras/iris/httptest"
-	"encoding/json"
-	"time"
-	"strings"
+	//"encoding/json"
+	//"strings"
+	//"time"
 )
 
 func init() {
@@ -19,15 +19,13 @@ type Token struct{
 }
 
 
-func fromPrivateLink2QueryArgs(tk string)[]string{
-	var mm []string
-	queryStr:=tk[33:]
-	for _,i:=range strings.Split(string(queryStr),"&"){
-		a:=strings.Split(i,"=")
-		mm=append(mm,a[1])
-	}
-	return mm
-}
+//func fromPrivateLink2QueryArgs(tk string)string{
+//
+//	queryStr:=tk[33:]
+//	a:=strings.Split(string(queryStr),"=")
+//
+//	return a[1]
+//}
 
 
 func TestBasicAuth(t *testing.T) {
@@ -69,36 +67,36 @@ func TestGetPrivatePromotionLin(t *testing.T) {
 	redis_client.RedisClient.Del("xueer_promotion")
 }
 
-
-func TestProcessRequest(t *testing.T) {
-	e := httptest.New(t, newApp())
-	a:=e.GET("/api/v1.0/private-promotion-link/").
-		WithQuery("id", "1").WithQuery("url", "www.baidu.com").
-		WithBasicAuth("andrewpqc", "andrewpqc").Expect().Status(httptest.StatusOK).Body().Raw()
-
-	var tk1 Token
-	json.Unmarshal([]byte(a),&tk1)
-	aa:=fromPrivateLink2QueryArgs(tk1.Token)
-	e.GET("/promotion/").WithQuery("t",aa[0]).WithQuery("landing",aa[1]).
-		Expect().Status(httptest.StatusPermanentRedirect)
-
-
-
-	b:=e.GET("/api/v1.0/private-promotion-link/").
-		WithQuery("id", "1").WithQuery("url", "www.baidu.com").WithQuery("ex","5").
-		WithBasicAuth("andrewpqc", "andrewpqc").Expect().Status(httptest.StatusOK).Body().Raw()
-
-	var tk2 Token
-	json.Unmarshal([]byte(b),&tk2)
-	aa=fromPrivateLink2QueryArgs(tk2.Token)
-	e.GET("/promotion/").WithQuery("t",aa[0]).WithQuery("landing",aa[1]).
-		Expect().Status(httptest.StatusPermanentRedirect)
-	time.Sleep(6*time.Second)
-	e.GET("/promotion/").WithQuery("t",aa[0]).WithQuery("landing",aa[1]).
-		Expect().Status(httptest.StatusForbidden)
-
-	redis_client.RedisClient.Del("xueer_promotion")
-}
+//
+//func TestProcessRequest(t *testing.T) {
+//	e := httptest.New(t, newApp())
+//	a:=e.GET("/api/v1.0/private-promotion-link/").
+//		WithQuery("id", "1").WithQuery("url", "www.baidu.com").
+//		WithBasicAuth("andrewpqc", "andrewpqc").Expect().Status(httptest.StatusOK).Body().Raw()
+//
+//	var tk1 Token
+//	json.Unmarshal([]byte(a),&tk1)
+//	aa:=fromPrivateLink2QueryArgs(tk1.Token)
+//	e.GET("/promotion/").WithQuery("t",aa).
+//		Expect().Status(httptest.StatusPermanentRedirect)
+//
+//
+//
+//	b:=e.GET("/api/v1.0/private-promotion-link/").
+//		WithQuery("id", "1").WithQuery("url", "www.baidu.com").WithQuery("ex","5").
+//		WithBasicAuth("andrewpqc", "andrewpqc").Expect().Status(httptest.StatusOK).Body().Raw()
+//
+//	var tk2 Token
+//	json.Unmarshal([]byte(b),&tk2)
+//	aa=fromPrivateLink2QueryArgs(tk2.Token)
+//	e.GET("/promotion/").WithQuery("t",aa).
+//		Expect().Status(httptest.StatusPermanentRedirect)
+//	time.Sleep(6*time.Second)
+//	e.GET("/promotion/").WithQuery("t",aa).
+//		Expect().Status(httptest.StatusForbidden)
+//
+//	redis_client.RedisClient.Del("xueer_promotion")
+//}
 
 func TestOtherUnimportant(t *testing.T){
 	e := httptest.New(t, newApp())
